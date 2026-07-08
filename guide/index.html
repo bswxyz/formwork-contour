@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONTOUR — Guide · How this was built</title>
+<meta name="description" content="How the CONTOUR site was built: a living topographic map drawn with a marching-squares contour engine over animated noise, GSAP motion, and GitHub Pages." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#e9e2d0;--paper-2:#efe9db;--moss:#2f3a26;--bark:#5b4a33;
+    --accent:#e2571e;--dim:rgba(47,58,38,.72);--faint:rgba(47,58,38,.5);
+    --line:rgba(47,58,38,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--moss);font-family:"Spectral",Georgia,serif;font-weight:400;line-height:1.68;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(rgba(47,58,38,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(47,58,38,.05) 1px,transparent 1px);
+    background-size:46px 46px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(28px,6vw,80px) clamp(20px,5vw,32px)}
+  .top{display:flex;justify-content:space-between;align-items:center;font-family:"Space Mono",monospace;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:clamp(40px,8vh,90px)}
+  .top a{color:var(--dim)}
+  .brand{font-family:"Oswald",sans-serif;font-size:1.15rem;font-weight:600;letter-spacing:.32em;color:var(--moss)}
+  h1{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1;letter-spacing:-.01em;margin-bottom:1.2rem}
+  h1 em{color:var(--accent);font-style:normal}
+  .lede{font-size:clamp(1.1rem,2.2vw,1.35rem);color:var(--dim);max-width:56ch;margin-bottom:3.4rem}
+  h2{font-family:"Oswald",sans-serif;font-weight:500;text-transform:uppercase;font-size:clamp(1.5rem,4vw,2.1rem);margin:3rem 0 1rem;letter-spacing:.01em}
+  p{color:var(--dim);margin:0 0 1.1rem;max-width:64ch}
+  .tag{display:inline-block;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem}
+  ul,ol{color:var(--dim);margin:0 0 1.2rem 1.2rem}
+  li{margin:.4rem 0}
+  strong{color:var(--moss);font-weight:500}
+  code{font-family:"Space Mono",monospace;font-size:.84em;background:rgba(47,58,38,.08);padding:.12em .4em;border-radius:3px;color:var(--moss)}
+  pre{background:var(--moss);border:1px solid var(--line);border-radius:6px;padding:18px 20px;overflow-x:auto;margin:0 0 1.4rem;font-size:.8rem;line-height:1.62}
+  pre code{background:none;padding:0;color:#d9d0bb}
+  pre code .c{color:#9db08c}
+  .rule{height:1px;background:var(--line);margin:3rem 0}
+  .stack{list-style:none;margin:0 0 1.2rem;padding:0;display:grid;gap:2px}
+  .stack li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .stack b{font-family:"Space Mono",monospace;color:var(--moss);font-weight:700;min-width:120px;display:inline-block;font-size:.82rem}
+  footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);font-family:"Space Mono",monospace;font-size:.78rem;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="../">CONTOUR</a>
+    <a href="../">← Back to site</a>
+  </div>
+
+  <span class="tag">Build guide · Sheet 16 of 25</span>
+  <h1>A trail atlas that <em>redraws itself</em>.</h1>
+  <p class="lede">CONTOUR is one of 25 sites designed and built by Fable to show web design,
+    motion, and restraint. The hero is a living topographic map — real iso-contours computed
+    live from a drifting noise field. Here is exactly how it was made.</p>
+
+  <h2>The idea</h2>
+  <p>The brief was cartographic: an expedition brand whose homepage <em>feels</em> like reading
+    a map before a walk. Rather than a photo of a mountain, the mountain is <strong>generated and
+    contoured on the fly</strong> — nested elevation rings that drift, breathe, and label their own
+    altitude. Everything else — condensed Oswald headings, a Spectral serif for route names, mono
+    for coordinates — is set on warm paper to frame that one moving surface.</p>
+
+  <h2>The stack</h2>
+  <ul class="stack">
+    <li><b>Hero</b> A hand-written marching-squares contour engine on a 2D canvas — no map library.</li>
+    <li><b>Field</b> 3D value-noise fBm plus drifting Gaussian peaks, so the rings are always coherent.</li>
+    <li><b>Motion</b> GSAP + ScrollTrigger for reveals; CSS transitions for the masked title.</li>
+    <li><b>Type</b> Oswald (display), Spectral (route serif), Space Mono (coordinates).</li>
+    <li><b>Build</b> Plain HTML/CSS/JS — no bundler, no framework. It just runs.</li>
+    <li><b>Host</b> GitHub Pages, served straight from the repo's <code>main</code> branch.</li>
+  </ul>
+
+  <h2>The signature technique: marching squares</h2>
+  <p>Each frame samples a scalar field onto a grid. For every <strong>cell</strong> — a square of four
+    grid points — the four corners are tested against an iso-value. That gives a 4-bit case (0–15),
+    and each case says which cell edges the contour crosses. Linearly interpolating the crossing
+    point along each edge yields the line segment. Do that for ~17 iso-values and you have a
+    topographic map; make every fourth one thicker and it reads as index contours.</p>
+  <pre><code><span class="c">// four corners → 4-bit case → interpolated crossings</span>
+let idx = 0;
+if (tl &gt; L) idx |= 8; if (tr &gt; L) idx |= 4;
+if (br &gt; L) idx |= 2; if (bl &gt; L) idx |= 1;
+const ax = x0 + sx*(L-tl)/(tr-tl);   <span class="c">// top edge X</span>
+const dy = y0 + sy*(L-tl)/(bl-tl);   <span class="c">// left edge Y</span>
+switch (idx) {
+  case 7: case 8: seg(ax, ay, dx, dy); break;  <span class="c">// one corner cut</span>
+  case 3: case 12: seg(dx, dy, bx, by); break; <span class="c">// left→right</span>
+  <span class="c">// …14 cases, two saddles</span>
+}</code></pre>
+  <p>The field itself is <strong>3D value noise</strong>: sampling a slowly advancing <code>z</code> makes the
+    terrain morph smoothly instead of teleporting, while a few Gaussian "peaks" with drifting centres
+    guarantee the iconic nested rings. A tiny sine offset on every iso-value makes the whole map
+    <em>breathe</em>. Labels are placed greedily along index contours and drawn with a paper-coloured
+    halo — which is exactly how a paper map leaves a gap in the line for its numbers.</p>
+
+  <h2>Details that matter</h2>
+  <ul>
+    <li><strong>Never blank</strong> — the hero title reveal is CSS-driven on a <code>.loaded</code> class with a 400ms failsafe, so a stalled CDN can't leave it empty.</li>
+    <li><strong>Reduced motion</strong> — one static, well-formed contour frame; numbers snap; no drift.</li>
+    <li><strong>Performance</strong> — device-pixel-ratio capped at 1.5, a coarser grid and ~40fps on phones, and a single stroke call per contour class.</li>
+    <li><strong>The cursor</strong> is a surveyor's crosshair reticle that swells over anything interactive.</li>
+  </ul>
+
+  <h2>Ship it on GitHub Pages</h2>
+  <p>Every site here is static, so hosting is three commands:</p>
+  <pre><code>git init -b main &amp;&amp; git add -A &amp;&amp; git commit -m "ship"
+gh repo create fable-contour --public --source=. --push
+gh api --method POST /repos/OWNER/fable-contour/pages \
+  -f 'source[branch]=main' -f 'source[path]=/'</code></pre>
+  <p>Use <strong>relative paths</strong> (<code>./main.js</code>, not <code>/main.js</code>) because project Pages
+    live under <code>/repo-name/</code>. Add an empty <code>.nojekyll</code> file so every asset serves verbatim.</p>
+
+  <div class="rule"></div>
+  <p>That's the whole recipe: one contour engine, a little motion, strong type, and static hosting.
+    The other 24 sites each swap the central technique — shaders, particles, kinetic type — but the
+    discipline is the same.</p>
+
+  <footer>Designed &amp; built by <strong>Fable</strong> · Part of a 25-site showcase · <a href="../">Return to CONTOUR →</a></footer>
+</div>
+</body>
+</html>
