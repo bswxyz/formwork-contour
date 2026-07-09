@@ -53,7 +53,7 @@
 
   <span class="tag">Build guide · Sheet 16 of 25</span>
   <h1>A trail atlas that <em>redraws itself</em>.</h1>
-  <p class="lede">CONTOUR is one of 25 sites designed and built by Fable to show web design,
+  <p class="lede">CONTOUR is one of 25 sites designed and built by Formwork to show web design,
     motion, and restraint. The hero is a living topographic map — real iso-contours computed
     live from a drifting noise field. Here is exactly how it was made.</p>
 
@@ -108,8 +108,8 @@ switch (idx) {
   <h2>Ship it on GitHub Pages</h2>
   <p>Every site here is static, so hosting is three commands:</p>
   <pre><code>git init -b main &amp;&amp; git add -A &amp;&amp; git commit -m "ship"
-gh repo create fable-contour --public --source=. --push
-gh api --method POST /repos/OWNER/fable-contour/pages \
+gh repo create formwork-contour --public --source=. --push
+gh api --method POST /repos/OWNER/formwork-contour/pages \
   -f 'source[branch]=main' -f 'source[path]=/'</code></pre>
   <p>Use <strong>relative paths</strong> (<code>./main.js</code>, not <code>/main.js</code>) because project Pages
     live under <code>/repo-name/</code>. Add an empty <code>.nojekyll</code> file so every asset serves verbatim.</p>
@@ -119,7 +119,7 @@ gh api --method POST /repos/OWNER/fable-contour/pages \
     The other 24 sites each swap the central technique — shaders, particles, kinetic type — but the
     discipline is the same.</p>
 
-  <footer>Designed &amp; built by <strong>Fable</strong> · Part of a 25-site showcase · <a href="../">Return to CONTOUR →</a></footer>
+  <footer>Designed &amp; built by <strong>Formwork</strong> · Part of a 25-site showcase · <a href="../">Return to CONTOUR →</a></footer>
 </div>
 </body>
 </html>
